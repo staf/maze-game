@@ -1,6 +1,5 @@
 import { random, randomArrayValue } from "./helpers";
-export default class Generator
-{
+export default class Generator {
     /**
      * "Snakes" through the cells of a map randomly and creates the maze
      *
@@ -8,17 +7,18 @@ export default class Generator
      */
     static BuildMaze(map) {
 
-        let startX = 0; //random(0, map.width - 1);
-        let startY = random(0, map.height - 1);
+        let startX    = 0; //random(0, map.width - 1);
+        let startY    = random(0, map.height - 1);
         let startCell = map.cells[startY][startX];
 
         startCell.SetWall(3, false); // open wall to left
         startCell.node.classList.add("start");
-        startCell.open = true;
+        startCell.open  = true;
+        startCell.start = true;
 
         let totalCells = map.width * map.height;
-        let openCells = 1;
-        let previous = startCell;
+        let openCells  = 1;
+        let previous   = startCell;
 
         while (openCells < totalCells) {
 
@@ -46,17 +46,18 @@ export default class Generator
 
         // Place an exit
         let exitDirection = randomArrayValue([0, 1, 2]); // any except starting direction
-        let exit;
-        if (exitDirection == 0) {
-            exit = map.GetCellAt(random(0, map.width - 1), 0);
-        } else if (exitDirection == 1) {
-            exit = map.GetCellAt(map.width - 1, random(0, map.height - 1));
-        } else if (exitDirection == 2) {
-            exit = map.GetCellAt(random(0, map.width - 1), map.height - 1);
+        let exitCell;
+        if (exitDirection === 0) {
+            exitCell = map.GetCellAt(random(0, map.width - 1), 0);
+        } else if (exitDirection === 1) {
+            exitCell = map.GetCellAt(map.width - 1, random(0, map.height - 1));
+        } else if (exitDirection === 2) {
+            exitCell = map.GetCellAt(random(0, map.width - 1), map.height - 1);
         }
 
-        exit.SetWall(exitDirection, false);
-        exit.node.classList.add("exit");
+        exitCell.SetWall(exitDirection, false);
+        exitCell.node.classList.add("exit");
+        exitCell.exit = true;
 
     }
 
@@ -72,11 +73,11 @@ export default class Generator
             let cell;
             let directions;
             let maxTries = count * 4; // To stop infinite loops when there are no walls left. todo: check if there are walls left instead.
-            let tries = 0;
+            let tries    = 0;
             do {
-                cell = Generator.RandomOpenCell(map);
+                cell       = Generator.RandomOpenCell(map);
                 directions = cell.WallDirections();
-            } while (directions.length == 0 || ++tries > maxTries);
+            } while (directions.length === 0 || ++tries > maxTries);
 
             cell.SetWall(randomArrayValue(directions), false);
         }
@@ -113,7 +114,7 @@ export default class Generator
         [0, 1, 2, 3].forEach(direction => {
             let possibleTarget = cell.GetNeighbour(direction);
             if (possibleTarget !== null && possibleTarget.open === false) {
-                available.push({ direction, cell: possibleTarget });
+                available.push({direction, cell: possibleTarget});
             }
         });
 

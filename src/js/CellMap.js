@@ -43,4 +43,17 @@ export default class CellMap {
 
         return null;
     }
+
+    GetStartingCell() {
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                let cell = this.cells[y][x];
+                if (cell.start) {
+                    return cell;
+                }
+            }
+        }
+
+        return null;
+    }
 }

@@ -21,7 +21,9 @@ export default class Cell {
         this.node = document.createElement("div");
         this.node.classList.add("cell");
 
-        this.open = false;
+        this.open  = false;
+        this.start = false;
+        this.exit  = false;
     }
 
     /**
@@ -79,7 +81,7 @@ export default class Cell {
      * This also updates any potential neighbour in that direction
      *
      * @param {number} direction
-     * @param {bool} state
+     * @param {boolean} state
      */
     SetWall(direction, state) {
         this.walls[direction] = state;

@@ -1,14 +1,19 @@
 /**
- * Setup the maze once the page has loaded. Though it is probably not necessary
- * to wait for the DOMContent since there are no external assets being loaded...
+ * Imports
  */
 import Generator from "./Generator";
 import CellMap from "./CellMap";
 import { randomInt } from "./helpers";
+import Character from "./Character";
 
+/**
+ * Setup the maze once the page has loaded. Though it is probably not necessary
+ * to wait for the DOMContent since there are no external assets being loaded...
+ */
 document.addEventListener("DOMContentLoaded", function () {
 
     let game = {
+        character: new Character(),
         maze: document.getElementById("game"),
         style: document.getElementById("style"),
         inputs: {
@@ -56,6 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 game.maze.appendChild(cell.node);
             }
         }
+
+        // TODO: find proper size of cell.
+        game.character.setSizing(71.8);
+        game.maze.appendChild(game.character.node);
+        game.character.moveToCell(map.GetStartingCell());
     };
 
     // Generate initial maze
