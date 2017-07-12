@@ -4,28 +4,34 @@
 export default class Character {
 
     constructor() {
-        this.node             = document.createElement('div');
-        this.node.className   = "character";
-        this.cellSize         = 0;
-        this.characterSize    = 30;
-        this.characterPadding = 0;
-        this.translateX       = 0;
-        this.translateY       = 0;
-        this.currentCell      = null;
-        this.map              = null;
-        this.canMove          = true;
+        this.size        = 30;
+        this.padding     = 0;
+        this.translateX  = 0;
+        this.translateY  = 0;
+        this.currentCell = null;
+        this.canMove     = true;
+        this.completed   = () => null;
+
+        this.node           = document.createElement('div');
+        this.node.className = "character";
 
         document.addEventListener("keydown", this.move.bind(this));
     }
 
     setSizing(cellSize) {
-        this.cellSize         = cellSize;
-        this.characterPadding = (cellSize - this.characterSize) / 2;
+        if (cellSize < this.size) {
+            this.size = cellSize * 0.8;
+        }
+        this.padding = (cellSize - this.size) / 2;
         this.setStyle();
     }
 
     setStyle() {
-        this.node.setAttribute("style", `margin:${this.characterPadding}px; transform:translate(${this.translateX}px, ${this.translateY}px);`);
+        this.node.setAttribute("style",
+            `margin:${this.padding}px;`
+            + `transform:translate(${this.translateX}px, ${this.translateY}px);`
+            + `height:${this.size}px;width:${this.size}px;`
+        );
     }
 
     /**
@@ -33,12 +39,21 @@ export default class Character {
      * @param {Cell} cell
      */
     moveToCell(cell) {
+        this.setSizing(cell.node.offsetWidth);
         this.translateX = cell.node.offsetLeft;
         this.translateY = cell.node.offsetTop;
         this.setStyle();
         this.currentCell = cell;
         this.canMove     = false;
-        setTimeout(() => this.canMove = true, 500 / 3); // third of the time of the css move animation
+
+        let movementDelay = 100;
+        if (cell.exit) {
+            this.completed();
+            movementDelay = 1000;
+        }
+
+        // small delay until we can issue the next movement command
+        setTimeout(() => this.canMove = true, movementDelay);
     }
 
     move(e) {

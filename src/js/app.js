@@ -62,8 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // TODO: find proper size of cell.
-        game.character.setSizing(71.8);
         game.maze.appendChild(game.character.node);
         game.character.moveToCell(map.GetStartingCell());
     };
@@ -74,11 +72,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Register the listener to the settings form
     settingsForm.addEventListener("submit", bootMaze);
 
-    // Setup the random seed button
-    seedButton.addEventListener("click", function (e) {
-        e.preventDefault();
+    const newRandomMap = e => {
+        if (e) e.preventDefault();
         game.inputs.seed.value = randomInt(0, 999999);
         bootMaze();
-    });
+    };
+
+    game.character.completed = () => {
+        console.log("GAME COMPLETE! Creating a new maze");
+        newRandomMap();
+    };
+
+    // Setup the random seed button
+    seedButton.addEventListener("click", newRandomMap);
 
 });
