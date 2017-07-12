@@ -8,7 +8,7 @@ let plugins = [
 
 module.exports = {
     context: __dirname,
-    devtool: production ? "inline-sourcemap" : null,
+    devtool: production ? "inline-sourcemap" : false,
     entry: [
         "./src/js/app.js",
         "./src/sass/style.scss"
