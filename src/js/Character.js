@@ -48,6 +48,7 @@ export default class Character {
 
         let movementDelay = 100;
         if (cell.exit) {
+            // TODO: Perhaps we should check if we are moving right from the exit cell instead of into it?
             this.completed();
             movementDelay = 1000;
         }

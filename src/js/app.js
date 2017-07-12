@@ -55,8 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         game.maze.innerHTML = "";
         for (let y = 0; y < size; y++) {
             for (let x = 0; x < size; x++) {
-                let cell              = map.cells[y][x];
-                cell.node.textContent = cell.ToString();
+                let cell = map.cells[y][x];
                 cell.UpdateWalls();
                 game.maze.appendChild(cell.node);
             }

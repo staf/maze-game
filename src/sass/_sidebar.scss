@@ -8,6 +8,7 @@
 
   h2 {
     margin-bottom: 30px;
+    font-weight: 700;
   }
 }
 
@@ -15,6 +16,7 @@ input {
   margin: 0 0 15px;
   border: 1px solid #DDD;
   padding: 5px 10px;
+  font-weight: 300;
 }
 
 button {
@@ -24,6 +26,11 @@ button {
   padding: 8px 12px;
   background-color: #007ec3;
   color: #FFF;
+  font-weight: 400;
+}
+
+input, button {
+  font-family: $fira-condensed;
 }
 
 .divider {

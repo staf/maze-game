@@ -12,9 +12,10 @@ export default class Generator {
         let startCell = map.cells[startY][startX];
 
         startCell.SetWall(3, false); // open wall to left
-        startCell.node.classList.add("start");
         startCell.open  = true;
         startCell.start = true;
+        startCell.node.classList.add("start");
+        startCell.node.innerHTML = `START <span></span>`;
 
         let totalCells = map.width * map.height;
         let openCells  = 1;
@@ -47,8 +48,9 @@ export default class Generator {
         // Place an exit on the right wall
         let exitCell = map.GetCellAt(map.width - 1, random(0, map.height - 1));
         exitCell.SetWall(1, false);
-        exitCell.node.classList.add("exit");
         exitCell.exit = true;
+        exitCell.node.classList.add("exit");
+        exitCell.node.innerHTML = `EXIT <span></span>`;
 
     }
 
