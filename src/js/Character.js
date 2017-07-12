@@ -13,6 +13,8 @@ export default class Character {
         this.translateY       = 0;
         this.currentCell      = null;
         this.map              = null;
+        this.canMove          = true;
+
         document.addEventListener("keydown", this.move.bind(this));
     }
 
@@ -35,6 +37,8 @@ export default class Character {
         this.translateY = cell.node.offsetTop;
         this.setStyle();
         this.currentCell = cell;
+        this.canMove     = false;
+        setTimeout(() => this.canMove = true, 500 / 3); // third of the time of the css move animation
     }
 
     move(e) {
@@ -60,12 +64,12 @@ export default class Character {
                 break;
         }
 
-        if (direction !== null) {
-            //TODO: Check if movement is in progress..
+        if (direction !== null && this.canMove) {
             let targetCell = this.currentCell.GetNeighbour(direction);
             if (targetCell) {
-                // TODO check if there is a wall blocking
-                this.moveToCell(targetCell);
+                if (!this.currentCell.walls[direction]) {
+                    this.moveToCell(targetCell);
+                }
             }
         }
     }
