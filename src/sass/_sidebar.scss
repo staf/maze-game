@@ -1,8 +1,11 @@
 .sidebar {
+  display: flex;
+  flex-direction: column;
   flex: 0 0 200px;
   background-color: #EFEFEF;
   border-right: 1px solid #BBB;
   padding: 30px;
+
   h2 {
     margin-bottom: 30px;
   }
@@ -27,4 +30,8 @@ button {
   color: #DDD;
   border: 1px solid #BBB;
   margin: 20px 0;
+}
+
+.github {
+  margin: auto auto 50px;
 }
