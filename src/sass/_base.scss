@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  box-sizing: inherit;
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-flow: row nowrap;
+}
