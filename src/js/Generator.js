@@ -44,18 +44,9 @@ export default class Generator {
             previous = target.cell;
         }
 
-        // Place an exit
-        let exitDirection = randomArrayValue([0, 1, 2]); // any except starting direction
-        let exitCell;
-        if (exitDirection === 0) {
-            exitCell = map.GetCellAt(random(0, map.width - 1), 0);
-        } else if (exitDirection === 1) {
-            exitCell = map.GetCellAt(map.width - 1, random(0, map.height - 1));
-        } else if (exitDirection === 2) {
-            exitCell = map.GetCellAt(random(0, map.width - 1), map.height - 1);
-        }
-
-        exitCell.SetWall(exitDirection, false);
+        // Place an exit on the right wall
+        let exitCell = map.GetCellAt(map.width - 1, random(0, map.height - 1));
+        exitCell.SetWall(1, false);
         exitCell.node.classList.add("exit");
         exitCell.exit = true;
 
