@@ -1,14 +1,23 @@
-const production = process.env.NODE_ENV !== "production";
 const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
+const production = process.env.NODE_ENV === "production";
 
 let plugins = [
-    new ExtractTextPlugin("style.css")
+    new MiniCssExtractPlugin({filename: "style.css"}),
 ];
 
+if (production) {
+    plugins.concat([
+        new OptimizeCSSAssetsPlugin({}),
+    ]);
+}
+
 module.exports = {
+    mode: production ? 'production' : 'development',
     context: __dirname,
-    devtool: production ? "inline-sourcemap" : false,
+    devtool: production ? 'none' : "inline-sourcemap",
     entry: [
         "./src/js/app.js",
         "./src/sass/style.scss"
@@ -17,11 +26,7 @@ module.exports = {
         path: __dirname + "/public",
         filename: "app.js"
     },
-    plugins: production
-        ? plugins
-        : plugins.concat([
-            new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })
-        ]),
+    plugins,
     module: {
         rules: [
             {
@@ -30,17 +35,12 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /\.css$/,
-                loaders: ['style-loader', 'css-loader']
-            },
-            {
                 test: /\.s[ac]ss$/,
-                loader: ExtractTextPlugin.extract(
-                    {
-                        fallback: 'style-loader',
-                        use: ['css-loader', 'sass-loader']
-                    }
-                )
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
             }
         ]
     },
